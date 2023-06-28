@@ -23,7 +23,7 @@ public class CityServiceImpl implements CityService {
 			throw new IntegrityViolation("Descrição inválida!");
 		}
 		if (city.getUf() == null || city.getUf() == "") {
-			throw new IntegrityViolation("UF inválida!");
+			throw new IntegrityViolation("UF inválido!");
 		}
 	}
 
@@ -65,7 +65,7 @@ public class CityServiceImpl implements CityService {
 	public List<City> findByDescriptionIgnoreCase(String description) {
 		List<City> list = repository.findByDescriptionIgnoreCase(description);
 		if (list.isEmpty()) {
-			throw new ObjectNotFound("Nenhuma cidade cadastrada com esse nome: %s".formatted(description));
+			throw new ObjectNotFound("Nenhuma cidade cadastrada com essa descrição: %s".formatted(description));
 		}
 		return list;
 	}
@@ -74,7 +74,7 @@ public class CityServiceImpl implements CityService {
 	public List<City> findByUfIgnoreCase(String uf) {
 		List<City> list = repository.findByUfIgnoreCase(uf);
 		if (list.isEmpty()) {
-			throw new ObjectNotFound("Nenhuma cidade cadastrada nessa UF: %s".formatted(uf));
+			throw new ObjectNotFound("Nenhuma cidade cadastrada com essa UF: %s".formatted(uf));
 		}
 		return list;
 	}

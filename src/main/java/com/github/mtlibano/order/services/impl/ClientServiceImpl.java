@@ -1,5 +1,6 @@
 package com.github.mtlibano.order.services.impl;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,7 +79,7 @@ public class ClientServiceImpl implements ClientService {
 
 	@Override
 	public Optional<Client> findByCpf(String cpf) {
-		Optional opt = repository.findByCpf(cpf);
+		Optional<Client> opt = repository.findByCpf(cpf);
 		if (opt.isEmpty()) {
 			throw new ObjectNotFound("Nenhum cliente cadastrado com esse cpf: %s".formatted(cpf));
 		}
@@ -87,11 +88,38 @@ public class ClientServiceImpl implements ClientService {
 
 	@Override
 	public Optional<Client> findByEmail(String email) {
-		Optional opt = repository.findByEmail(email);
+		Optional<Client> opt = repository.findByEmail(email);
 		if (opt.isEmpty()) {
 			throw new ObjectNotFound("Nenhum cliente cadastrado com esse email: %s".formatted(email));
 		}
 		return opt;
+	}
+
+	@Override
+	public List<Client> findByBirthDate(ZonedDateTime date) {
+		List<Client> list = repository.findByBirthDate(date);
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Nenhum cliente com essa data: %s".formatted(date));
+		}
+		return list;
+	}
+
+	@Override
+	public List<Client> findByBirthDateBetween(ZonedDateTime initialDate, ZonedDateTime finalDate) {
+		List<Client> list = repository.findByBirthDateBetween(initialDate, finalDate);
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Nenhum cliente nesse intervalo de data: %s e %s".formatted(initialDate, finalDate));
+		}
+		return list;
+	}
+
+	@Override
+	public List<Client> findByDistrictIgnoreCase(String district) {
+		List<Client> list = repository.findByDistrictIgnoreCase(district);
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Nenhum cliente cadastrado com esse bairro: %s".formatted(district));
+		}
+		return list;
 	}
 
 }

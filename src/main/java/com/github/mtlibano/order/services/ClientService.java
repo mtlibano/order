@@ -23,5 +23,11 @@ public interface ClientService {
 	Optional<Client> findByCpf(String cpf);
 
 	Optional<Client> findByEmail(String email);
+	
+    List<Client> findByBirthDate(ZonedDateTime date);
+    
+    List<Client> findByBirthDateBetween(ZonedDateTime initialDate, ZonedDateTime finalDate);
+    
+    List<Client> findByDistrictIgnoreCase(String district);
 
 }

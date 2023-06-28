@@ -6,9 +6,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.mtlibano.order.domain.Order;
+import com.github.mtlibano.order.domain.Product;
 import com.github.mtlibano.order.domain.ProductOrder;
 import com.github.mtlibano.order.repositories.ProductOrderRepository;
 import com.github.mtlibano.order.services.ProductOrderService;
+import com.github.mtlibano.order.services.exceptions.IntegrityViolation;
 import com.github.mtlibano.order.services.exceptions.ObjectNotFound;
 
 @Service
@@ -16,14 +19,23 @@ public class ProductOrderServiceImpl implements ProductOrderService {
 	
 	@Autowired
 	ProductOrderRepository repository;
+	
+	private void checkProductOrder(ProductOrder productOrder) {
+		if (productOrder.getQuantity() == null || productOrder.getQuantity() == 0) {
+			throw new IntegrityViolation("Quantidade inválida!");
+		}
+	}
 
 	@Override
 	public ProductOrder insert(ProductOrder productOrder) {
+		checkProductOrder(productOrder);
 		return repository.save(productOrder);
 	}
 
 	@Override
 	public ProductOrder update(ProductOrder productOrder) {
+		checkProductOrder(productOrder);
+		findById(productOrder.getId());
 		return repository.save(productOrder);
 	}
 
@@ -44,6 +56,24 @@ public class ProductOrderServiceImpl implements ProductOrderService {
 		List<ProductOrder> list = repository.findAll();
         if (list.isEmpty()) {
             throw new ObjectNotFound("Void!");
+        }
+        return list;
+	}
+
+	@Override
+	public List<ProductOrder> findByProduct(Product product) {
+		List<ProductOrder> list = repository.findByProduct(product);
+        if (list.isEmpty()) {
+        	throw new ObjectNotFound("Nenhum PedidoProduto com esse produto: %s!".formatted(product.getDescription()));
+        }
+        return list;
+	}
+
+	@Override
+	public List<ProductOrder> findByOrder(Order order) {
+		List<ProductOrder> list = repository.findByOrder(order);
+        if (list.isEmpty()) {
+        	throw new ObjectNotFound("Nenhum PedidoProduto com esse pedido: %s!".formatted(order.getId()));
         }
         return list;
 	}

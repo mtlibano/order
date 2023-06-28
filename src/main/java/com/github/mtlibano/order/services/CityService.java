@@ -1,7 +1,6 @@
 package com.github.mtlibano.order.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.github.mtlibano.order.domain.City;
 

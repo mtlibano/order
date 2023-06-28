@@ -4,6 +4,8 @@ import com.github.mtlibano.order.domain.Client;
 import com.github.mtlibano.order.domain.dto.ClientDTO;
 import com.github.mtlibano.order.services.CityService;
 import com.github.mtlibano.order.services.ClientService;
+import com.github.mtlibano.order.utils.DateUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,8 +62,15 @@ public class ClientResource {
     public ResponseEntity<List<ClientDTO>> findByCpf(@PathVariable String cpf) {
         return ResponseEntity.ok(service.findByCpf(cpf).stream().map(Client::toDTO).toList());
     }
+    
+    @GetMapping("/date/{date}")
+    public ResponseEntity<List<ClientDTO>> findByBirthDate(@RequestParam String date) {
+        return ResponseEntity.ok(service.findByBirthDate(DateUtils.strToZonedDateTime(date)).stream().map(Client::toDTO).toList());
+    }
 
-
-
+    @GetMapping("/date/{initialDate}/{finalDate}")
+    public ResponseEntity<List<ClientDTO>> findByBirthDateBetween(@RequestParam String initialDate, @RequestParam String finalDate) {
+        return ResponseEntity.ok(service.findByBirthDateBetween(DateUtils.strToZonedDateTime(initialDate), DateUtils.strToZonedDateTime(finalDate)).stream().map(Client::toDTO).toList());
+    }
 
 }
