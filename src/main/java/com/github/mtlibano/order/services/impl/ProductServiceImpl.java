@@ -1,5 +1,6 @@
 package com.github.mtlibano.order.services.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import com.github.mtlibano.order.domain.Product;
 import com.github.mtlibano.order.repositories.ProductRepository;
 import com.github.mtlibano.order.services.ProductService;
 import com.github.mtlibano.order.services.exceptions.ObjectNotFound;
+import com.github.mtlibano.order.services.exceptions.IntegrityViolation;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -17,13 +19,25 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	ProductRepository repository;
 
+	private void checkProduct(Product product) {
+		if (product.getDescription() == null || product.getDescription().equals("")) {
+			throw new IntegrityViolation("Descrição inválida!");
+		}
+		if (product.getPrice() == null || product.getPrice().compareTo(BigDecimal.ZERO) == 0) {
+			throw new IntegrityViolation("Preço inválido!");
+		}
+	}
+
 	@Override
 	public Product insert(Product product) {
+		checkProduct(product);
 		return repository.save(product);
 	}
 
 	@Override
 	public Product update(Product product) {
+		findById(product.getId());
+		checkProduct(product);
 		return repository.save(product);
 	}
 
@@ -46,6 +60,33 @@ public class ProductServiceImpl implements ProductService {
             throw new ObjectNotFound("Void!");
         }
         return list;
+	}
+
+	@Override
+	public List<Product> findByDescriptionIgnoreCase(String description) {
+		List<Product> list = repository.findByDescriptionIgnoreCase(description);
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Nenhum produto cadastrado com essa descrição: %s".formatted(description));
+		}
+		return list;
+	}
+
+	@Override
+	public List<Product> findByPrice(BigDecimal price) {
+		List<Product> list = repository.findByPrice(price);
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Nenhum produto cadastrado com esse preço: %s".formatted(price));
+		}
+		return list;
+	}
+
+	@Override
+	public List<Product> findByPriceBetween(BigDecimal initialPrice, BigDecimal finalPrice) {
+		List<Product> list = repository.findByPriceBetween(initialPrice, finalPrice);
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Nenhum produto nessa faixa de preço: %s e %s".formatted(initialPrice, finalPrice));
+		}
+		return list;
 	}
 
 }

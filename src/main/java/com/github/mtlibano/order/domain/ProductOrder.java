@@ -7,14 +7,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 @Entity(name = "product_order")
 public class ProductOrder {
 	
@@ -28,11 +26,9 @@ public class ProductOrder {
 	private Integer quantity;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_product")
 	private Product product;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_order")
 	private Order order;
 
 }

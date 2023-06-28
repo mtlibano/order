@@ -2,22 +2,16 @@ package com.github.mtlibano.order.domain;
 
 import java.time.ZonedDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.github.mtlibano.order.domain.dto.ClientDTO;
+import com.github.mtlibano.order.utils.DateUtils;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@EqualsAndHashCode(of = "id")
+@Entity(name = "client")
 public class Client {
 	
 	@Id
@@ -35,20 +29,36 @@ public class Client {
 	@Column(nullable = false, length = 150, unique = true)
 	private String email;
 	
-	@Column(nullable = false, name = "birth_date")
+	@Column(name = "birth_date")
 	private ZonedDateTime birthDate;
-	
-	@Column(nullable = false, length = 150)
-	private String street;
-	
-	@Column(nullable = false, length = 150)
-	private String district;
-	
-	@Column(nullable = false, length = 8)
+
+	@Column(length = 8)
 	private String cep;
 	
+	@Column(length = 150)
+	private String street;
+
+	@Column(length = 10)
+	private String number;
+	
+	@Column(length = 150)
+	private String district;
+	
 	@ManyToOne
-	@JoinColumn(name = "id_city")
 	private City city;
+
+	public Client(ClientDTO dto, City city) {
+		this(dto.getId(), dto.getName(), dto.getCpf(), dto.getEmail(),
+				DateUtils.strToZonedDateTime(dto.getDate()),
+				dto.getCep(), dto.getStreet(), dto.getNumber(), dto.getDistrict(),
+				city);
+	}
+
+	public ClientDTO toDTO() {
+		return new ClientDTO(id, name, cpf, email,
+				DateUtils.zonedDateTimeToStr(birthDate),
+				cep, street, number, district,
+				city.getId(), city.getDescription(), city.getUf());
+	}
 
 }

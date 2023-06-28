@@ -1,19 +1,18 @@
 package com.github.mtlibano.order.domain;
 
+import com.github.mtlibano.order.domain.dto.PaymentDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@EqualsAndHashCode(of = "id")
+@Entity(name = "payment")
 public class Payment {
 	
 	@Id
@@ -24,5 +23,13 @@ public class Payment {
 	
 	@Column(nullable = false, length = 40)
 	private String type;
+
+	public Payment(PaymentDTO dto) {
+		this(dto.getId(), dto.getType());
+	}
+
+	public PaymentDTO toDTO() {
+		return new PaymentDTO(id, type);
+	}
 
 }

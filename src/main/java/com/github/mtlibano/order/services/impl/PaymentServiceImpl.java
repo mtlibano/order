@@ -3,6 +3,7 @@ package com.github.mtlibano.order.services.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.github.mtlibano.order.services.exceptions.IntegrityViolation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +18,22 @@ public class PaymentServiceImpl implements PaymentService {
 	@Autowired
 	PaymentRepository repository;
 
+	private void checkPayment(Payment payment) {
+		if (payment.getType() == null || payment.getType().equals("")) {
+			throw new IntegrityViolation("Tipo inválido!");
+		}
+	}
+
 	@Override
 	public Payment insert(Payment payment) {
+		checkPayment(payment);
 		return repository.save(payment);
 	}
 
 	@Override
 	public Payment update(Payment payment) {
+		checkPayment(payment);
+		findById(payment.getId());
 		return repository.save(payment);
 	}
 
@@ -46,6 +56,15 @@ public class PaymentServiceImpl implements PaymentService {
             throw new ObjectNotFound("Void!");
         }
         return list;
+	}
+
+	@Override
+	public List<Payment> findByTypeIgnoreCase(String type) {
+		List<Payment> list = repository.findByTypeIgnoreCase(type);
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Nenhum pagamento cadastrado desse tipo: %s".formatted(type));
+		}
+		return list;
 	}
 
 }

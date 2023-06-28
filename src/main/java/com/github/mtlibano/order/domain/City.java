@@ -1,19 +1,18 @@
 package com.github.mtlibano.order.domain;
 
+import com.github.mtlibano.order.domain.dto.CityDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@EqualsAndHashCode(of = "id")
+@Entity(name = "city")
 public class City {
 	
 	@Id
@@ -27,5 +26,13 @@ public class City {
 	
 	@Column(nullable = false, length = 2)
 	private String uf;
+
+	public City(CityDTO dto) {
+		this(dto.getId(), dto.getDescription(), dto.getUf());
+	}
+
+	public CityDTO toDTO() {
+		return new CityDTO(id, description, uf);
+	}
 	
 }

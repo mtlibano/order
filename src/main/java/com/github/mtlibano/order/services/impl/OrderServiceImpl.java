@@ -1,12 +1,14 @@
 package com.github.mtlibano.order.services.impl;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import com.github.mtlibano.order.domain.*;
+import com.github.mtlibano.order.services.exceptions.IntegrityViolation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.mtlibano.order.domain.Order;
 import com.github.mtlibano.order.repositories.OrderRepository;
 import com.github.mtlibano.order.services.OrderService;
 import com.github.mtlibano.order.services.exceptions.ObjectNotFound;
@@ -17,13 +19,28 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	OrderRepository repository;
 
+	private void checkOrder(Order order) {
+		if (order.getDate() == null) {
+			throw new IntegrityViolation("Data inválida!");
+		}
+		if (order.getClient() == null) {
+			throw new IntegrityViolation("Cliente inválido!");
+		}
+		if (order.getPayment() == null) {
+			throw new IntegrityViolation("Pagamento inválido!");
+		}
+	}
+
 	@Override
 	public Order insert(Order order) {
+		checkOrder(order);
 		return repository.save(order);
 	}
 
 	@Override
 	public Order update(Order order) {
+		checkOrder(order);
+		findById(order.getId());
 		return repository.save(order);
 	}
 
@@ -46,6 +63,51 @@ public class OrderServiceImpl implements OrderService {
             throw new ObjectNotFound("Void!");
         }
         return list;
+	}
+
+	@Override
+	public List<Order> findByDate(ZonedDateTime date) {
+		List<Order> list = repository.findByDate(date);
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Nenhum pedido com essa data: %s".formatted(date));
+		}
+		return list;
+	}
+
+	@Override
+	public List<Order> findByDateBetween(ZonedDateTime initialDate, ZonedDateTime finalDate) {
+		List<Order> list = repository.findByDateBetween(initialDate, finalDate);
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Nenhum pedido nesse intervalo de data: %s e %s".formatted(initialDate, finalDate));
+		}
+		return list;
+	}
+
+	@Override
+	public List<Order> findByClient(Client client) {
+		List<Order> list = repository.findByClient(client);
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Nenhum pedido para esse cliente: %s!".formatted(client.getName()));
+		}
+		return list;
+	}
+
+	@Override
+	public List<Order> findByPayment(Payment payment) {
+		List<Order> list = repository.findByPayment(payment);
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Nenhum pedido para esse tipo de pagamento: %s!".formatted(payment.getType()));
+		}
+		return list;
+	}
+
+	@Override
+	public List<Order> findByRating(Rating rating) {
+		List<Order> list = repository.findByRating(rating);
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Nenhum pedido com essa avaliação: %s!".formatted(rating.getGrade()));
+		}
+		return list;
 	}
 
 }

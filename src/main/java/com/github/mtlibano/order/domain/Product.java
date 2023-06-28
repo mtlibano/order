@@ -2,20 +2,19 @@ package com.github.mtlibano.order.domain;
 
 import java.math.BigDecimal;
 
+import com.github.mtlibano.order.domain.dto.ProductDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@EqualsAndHashCode(of = "id")
+@Entity(name = "product")
 public class Product {
 	
 	@Id
@@ -30,9 +29,15 @@ public class Product {
 	@Column(nullable = false, length = 10)
 	private BigDecimal price;
 	
-	@Column(nullable = false, length = 13)
+	@Column(length = 13)
 	private String barCode;
-	
-	
+
+	public Product(ProductDTO dto) {
+		this(dto.getId(), dto.getDescription(), dto.getPrice(), dto.getBarCode());
+	}
+
+	public ProductDTO toDTO() {
+		return new ProductDTO(id, description, price, barCode);
+	}
 
 }

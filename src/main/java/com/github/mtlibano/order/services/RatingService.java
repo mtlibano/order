@@ -6,9 +6,17 @@ import com.github.mtlibano.order.domain.Rating;
 public interface RatingService {
 	
 	Rating insert(Rating rating);
+
 	Rating update(Rating rating);
+
     void delete(Integer id);
+
     Rating findById(Integer id);
+
 	List<Rating> listAll();
+
+	List<Rating> findByGrade(Integer grade);
+
+	List<Rating> findByGradeBetween(Integer initialGrade, Integer finalGrade);
 
 }

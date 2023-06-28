@@ -2,22 +2,21 @@ package com.github.mtlibano.order.domain;
 
 import java.time.ZonedDateTime;
 
+import com.github.mtlibano.order.domain.dto.OrderDTO;
+import com.github.mtlibano.order.utils.DateUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@EqualsAndHashCode(of = "id")
+@Entity(name = "order_task")
 public class Order {
 	
 	@Id
@@ -30,15 +29,28 @@ public class Order {
 	private ZonedDateTime date;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_client")
 	private Client client;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_payment")
 	private Payment payment;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_rating")
 	private Rating rating;
+
+	public Order(OrderDTO dto, Client client, Payment payment, Rating rating) {
+		this(dto.getId(),
+				DateUtils.strToZonedDateTime(dto.getDate()),
+				client,
+				payment,
+				rating);
+	}
+
+	public OrderDTO toDTO() {
+		return new OrderDTO(id,
+				DateUtils.zonedDateTimeToStr(date),
+				client.getId(), client.getName(),
+				payment.getId(), payment.getType(),
+				rating.getId(), rating.getGrade(), rating.getComment());
+	}
 
 }

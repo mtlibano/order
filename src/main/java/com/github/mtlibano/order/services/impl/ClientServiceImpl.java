@@ -3,6 +3,7 @@ package com.github.mtlibano.order.services.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.github.mtlibano.order.services.exceptions.IntegrityViolation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +18,31 @@ public class ClientServiceImpl implements ClientService {
 	@Autowired
 	ClientRepository repository;
 
+	public void checkClient(Client client) {
+		if (client.getName() == null || client.getName().equals("")) {
+			throw new IntegrityViolation("Nome inválido!");
+		}
+		if (client.getCpf() == null || client.getCpf().equals("")) {
+			throw new IntegrityViolation("CPF inválido!");
+		}
+		if (client.getEmail() == null || client.getEmail() == "") {
+			throw new IntegrityViolation("Email inválido!");
+		}
+		Optional<Client> newClient = repository.findByEmail(client.getEmail());
+		if (client.getId() == newClient.get().getId()) {
+			throw new IntegrityViolation("Email já utilizado!");
+		}
+	}
+
 	@Override
 	public Client insert(Client client) {
+		checkClient(client);
 		return repository.save(client);
 	}
 
 	@Override
 	public Client update(Client client) {
+		checkClient(client);
 		return repository.save(client);
 	}
 
@@ -46,6 +65,33 @@ public class ClientServiceImpl implements ClientService {
             throw new ObjectNotFound("Void!");
         }
         return list;
+	}
+
+	@Override
+	public List<Client> findByNameIgnoreCase(String name) {
+		List<Client> list = repository.findByNameIgnoreCase(name);
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Nenhum cliente cadastrado com esse nome: %s".formatted(name));
+		}
+		return list;
+	}
+
+	@Override
+	public Optional<Client> findByCpf(String cpf) {
+		Optional opt = repository.findByCpf(cpf);
+		if (opt.isEmpty()) {
+			throw new ObjectNotFound("Nenhum cliente cadastrado com esse cpf: %s".formatted(cpf));
+		}
+		return opt;
+	}
+
+	@Override
+	public Optional<Client> findByEmail(String email) {
+		Optional opt = repository.findByEmail(email);
+		if (opt.isEmpty()) {
+			throw new ObjectNotFound("Nenhum cliente cadastrado com esse email: %s".formatted(email));
+		}
+		return opt;
 	}
 
 }

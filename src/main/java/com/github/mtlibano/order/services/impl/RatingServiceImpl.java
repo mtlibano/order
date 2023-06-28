@@ -24,6 +24,7 @@ public class RatingServiceImpl implements RatingService {
 
 	@Override
 	public Rating update(Rating rating) {
+		findById(rating.getId());
 		return repository.save(rating);
 	}
 
@@ -46,6 +47,24 @@ public class RatingServiceImpl implements RatingService {
             throw new ObjectNotFound("Void!");
         }
         return list;
+	}
+
+	@Override
+	public List<Rating> findByGrade(Integer grade) {
+		List<Rating> list = repository.findByGrade(grade);
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Nenhuma avaliação com essa nota: %s".formatted(grade));
+		}
+		return list;
+	}
+
+	@Override
+	public List<Rating> findByGradeBetween(Integer initialGrade, Integer finalGrade) {
+		List<Rating> list = repository.findByGradeBetween(initialGrade, finalGrade);
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Nenhuma avaliação nesse intervalo de nota: %s e %s".formatted(initialGrade, finalGrade));
+		}
+		return list;
 	}
 
 }

@@ -1,19 +1,18 @@
 package com.github.mtlibano.order.domain;
 
+import com.github.mtlibano.order.domain.dto.RatingDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@EqualsAndHashCode(of = "id")
+@Entity(name = "rating")
 public class Rating {
 	
 	@Id
@@ -22,10 +21,18 @@ public class Rating {
 	@Setter
 	private Integer id;
 	
-	@Column(nullable = false, length = 1)
+	@Column(length = 1)
 	private Integer grade;
 	
-	@Column(nullable = false, length = 150)
+	@Column(length = 150)
 	private String comment;
+
+	public Rating(RatingDTO dto) {
+		this(dto.getId(), dto.getGrade(), dto.getComment());
+	}
+
+	public RatingDTO toDTO() {
+		return new RatingDTO(id, grade, comment);
+	}
 
 }
