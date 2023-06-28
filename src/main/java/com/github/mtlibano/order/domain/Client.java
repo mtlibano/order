@@ -49,7 +49,7 @@ public class Client {
 
 	public Client(ClientDTO dto, City city) {
 		this(dto.getId(), dto.getName(), dto.getCpf(), dto.getEmail(),
-				DateUtils.strToZonedDateTime(dto.getDate()),
+				DateUtils.strToZonedDateTime(dto.getBirthDate()),
 				dto.getCep(), dto.getStreet(), dto.getNumber(), dto.getDistrict(),
 				city);
 	}

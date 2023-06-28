@@ -29,10 +29,11 @@ public class ClientServiceImpl implements ClientService {
 		if (client.getEmail() == null || client.getEmail() == "") {
 			throw new IntegrityViolation("Email inválido!");
 		}
+		/*
 		Optional<Client> newClient = repository.findByEmail(client.getEmail());
 		if (client.getId() == newClient.get().getId()) {
 			throw new IntegrityViolation("Email já utilizado!");
-		}
+		}*/
 	}
 
 	@Override
@@ -44,6 +45,7 @@ public class ClientServiceImpl implements ClientService {
 	@Override
 	public Client update(Client client) {
 		checkClient(client);
+		findById(client.getId());
 		return repository.save(client);
 	}
 
@@ -81,14 +83,14 @@ public class ClientServiceImpl implements ClientService {
 	public Optional<Client> findByCpf(String cpf) {
 		Optional<Client> opt = repository.findByCpf(cpf);
 		if (opt.isEmpty()) {
-			throw new ObjectNotFound("Nenhum cliente cadastrado com esse cpf: %s".formatted(cpf));
+			throw new ObjectNotFound("Nenhum cliente cadastrado com esse CPF: %s".formatted(cpf));
 		}
 		return opt;
 	}
 
 	@Override
-	public Optional<Client> findByEmail(String email) {
-		Optional<Client> opt = repository.findByEmail(email);
+	public Optional<Client> findByEmailIgnoreCase(String email) {
+		Optional<Client> opt = repository.findByEmailIgnoreCase(email);
 		if (opt.isEmpty()) {
 			throw new ObjectNotFound("Nenhum cliente cadastrado com esse email: %s".formatted(email));
 		}
@@ -99,7 +101,7 @@ public class ClientServiceImpl implements ClientService {
 	public List<Client> findByBirthDate(ZonedDateTime date) {
 		List<Client> list = repository.findByBirthDate(date);
 		if (list.isEmpty()) {
-			throw new ObjectNotFound("Nenhum cliente com essa data: %s".formatted(date));
+			throw new ObjectNotFound("Nenhum cliente com essa data de nascimento: %s".formatted(date));
 		}
 		return list;
 	}
@@ -108,7 +110,7 @@ public class ClientServiceImpl implements ClientService {
 	public List<Client> findByBirthDateBetween(ZonedDateTime initialDate, ZonedDateTime finalDate) {
 		List<Client> list = repository.findByBirthDateBetween(initialDate, finalDate);
 		if (list.isEmpty()) {
-			throw new ObjectNotFound("Nenhum cliente nesse intervalo de data: %s e %s".formatted(initialDate, finalDate));
+			throw new ObjectNotFound("Nenhum cliente nesse intervalo de data de nascimento: %s e %s".formatted(initialDate, finalDate));
 		}
 		return list;
 	}

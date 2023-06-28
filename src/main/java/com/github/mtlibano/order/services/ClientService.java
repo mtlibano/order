@@ -22,7 +22,7 @@ public interface ClientService {
 
 	Optional<Client> findByCpf(String cpf);
 
-	Optional<Client> findByEmail(String email);
+    Optional<Client> findByEmailIgnoreCase(String email);
 	
     List<Client> findByBirthDate(ZonedDateTime date);
     

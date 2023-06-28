@@ -30,14 +30,14 @@ public class Product {
 	private BigDecimal price;
 	
 	@Column(length = 13)
-	private String barCode;
+	private String barcode;
 
 	public Product(ProductDTO dto) {
-		this(dto.getId(), dto.getDescription(), dto.getPrice(), dto.getBarCode());
+		this(dto.getId(), dto.getDescription(), dto.getPrice(), dto.getBarcode());
 	}
 
 	public ProductDTO toDTO() {
-		return new ProductDTO(id, description, price, barCode);
+		return new ProductDTO(id, description, price, barcode);
 	}
 
 }

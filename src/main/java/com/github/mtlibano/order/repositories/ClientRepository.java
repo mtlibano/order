@@ -16,7 +16,7 @@ public interface ClientRepository extends JpaRepository<Client, Integer>{
 
     Optional<Client> findByCpf(String cpf);
 
-    Optional<Client> findByEmail(String email);
+    Optional<Client> findByEmailIgnoreCase(String email);
     
     List<Client> findByBirthDate(ZonedDateTime date);
     

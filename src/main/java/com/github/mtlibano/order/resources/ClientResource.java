@@ -64,12 +64,12 @@ public class ClientResource {
     }
     
     @GetMapping("/date/{date}")
-    public ResponseEntity<List<ClientDTO>> findByBirthDate(@RequestParam String date) {
+    public ResponseEntity<List<ClientDTO>> findByBirthDate(@PathVariable String date) {
         return ResponseEntity.ok(service.findByBirthDate(DateUtils.strToZonedDateTime(date)).stream().map(Client::toDTO).toList());
     }
 
     @GetMapping("/date/{initialDate}/{finalDate}")
-    public ResponseEntity<List<ClientDTO>> findByBirthDateBetween(@RequestParam String initialDate, @RequestParam String finalDate) {
+    public ResponseEntity<List<ClientDTO>> findByBirthDateBetween(@PathVariable String initialDate, @PathVariable String finalDate) {
         return ResponseEntity.ok(service.findByBirthDateBetween(DateUtils.strToZonedDateTime(initialDate), DateUtils.strToZonedDateTime(finalDate)).stream().map(Client::toDTO).toList());
     }
 

@@ -24,7 +24,7 @@ public class PhoneNumberServiceImpl implements PhoneNumberService {
 			throw new IntegrityViolation("Número telefone inválido!");
 		}
 		if (phoneNumber.getClient() == null) {
-			throw new IntegrityViolation("Client inválido!");
+			throw new IntegrityViolation("Cliente inválido!");
 		}
 	}
 
@@ -66,7 +66,7 @@ public class PhoneNumberServiceImpl implements PhoneNumberService {
 	public List<PhoneNumber> findByPhoneNumber(String phoneNumber) {
 		List<PhoneNumber> list = repository.findByPhoneNumber(phoneNumber);
 		if (list.isEmpty()) {
-			throw new ObjectNotFound("Nenhum telefone cadastrado com esse número: %s!".formatted(phoneNumber));
+			throw new ObjectNotFound("Nenhum telefone cadastrado com esse número: %s".formatted(phoneNumber));
 		}
 		return list;
 	}
@@ -75,7 +75,7 @@ public class PhoneNumberServiceImpl implements PhoneNumberService {
 	public List<PhoneNumber> findByClient(Client client) {
 		List<PhoneNumber> list = repository.findByClient(client);
 		if (list.isEmpty()) {
-			throw new ObjectNotFound("Nenhum telefone cadastrado para esse cliente: %s!".formatted(client.getName()));
+			throw new ObjectNotFound("Nenhum telefone cadastrado para esse cliente: %s".formatted(client.getName()));
 		}
 		return list;
 	}
