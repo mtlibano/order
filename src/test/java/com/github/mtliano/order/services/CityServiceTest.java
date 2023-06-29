@@ -51,14 +51,14 @@ public class CityServiceTest extends BaseTests {
 	
 	@Test
 	@DisplayName("Listar todos ERROR Void")
-	void listAllError() {
+	void listAllTestError() {
 		var exception = assertThrows(ObjectNotFound.class, () -> cityService.listAll());
 		assertEquals("Void!", exception.getMessage());
 	}
 	
 	@Test
 	@DisplayName("Cadastrar")
-	void insert() {
+	void insertTest() {
 		City city = cityService.insert(new City(null, "São Paulo", "SP"));
 		assertThat(city).isNotNull();
 		var newCity = cityService.findById(1);
@@ -68,14 +68,14 @@ public class CityServiceTest extends BaseTests {
 	
 	@Test
 	@DisplayName("Cadastrar ERROR Descrição")
-	void insertErrorNullDescription() {
+	void insertTestErrorNullDescription() {
 		var exception = assertThrows(IntegrityViolation.class, () -> cityService.insert(new City(null, null, "SC")));
 		assertEquals("Descrição inválida!", exception.getMessage());
 	}
 	
 	@Test
 	@DisplayName("Cadastrar ERROR UF")
-	void insertErrorNullUf() {
+	void insertTestErrorNullUf() {
 		var exception = assertThrows(IntegrityViolation.class, () -> cityService.insert(new City(null, "Tubarão", null)));
 		assertEquals("UF inválido!", exception.getMessage());
 	}
@@ -83,7 +83,7 @@ public class CityServiceTest extends BaseTests {
 	@Test
 	@DisplayName("Update")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
-	void update() {
+	void updateTest() {
 		cityService.update(new City(4, "Floripa", "SC"));
 		var city = cityService.findById(4);
 		assertEquals("Floripa", city.getDescription());
@@ -92,7 +92,7 @@ public class CityServiceTest extends BaseTests {
 	@Test
 	@DisplayName("Delete")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
-	void delete() {
+	void deleteTest() {
 		cityService.delete(2);
 		var list = cityService.listAll();
 		assertEquals(4, list.size());

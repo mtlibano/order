@@ -37,12 +37,3 @@ insert into order_task(id, date, client_id, payment_id, rating_id) values (2, '2
 insert into order_task(id, date, client_id, payment_id, rating_id) values (3, '2023-06-02 00:00:00.000-03:00', 1, 2, 3);
 insert into order_task(id, date, client_id, payment_id, rating_id) values (4, '2023-06-02 00:00:00.000-03:00', 2, 2, 4);
 insert into order_task(id, date, client_id, payment_id, rating_id) values (5, '2023-06-03 00:00:00.000-03:00', 2, 1, 5);
-
-insert into product_order(id, quantity, order_id, product_id) values (1, 4, 1, 1);
-insert into product_order(id, quantity, order_id, product_id) values (2, 2, 2, 2);
-insert into product_order(id, quantity, order_id, product_id) values (3, 6, 2, 3);
-insert into product_order(id, quantity, order_id, product_id) values (4, 2, 2, 4);
-insert into product_order(id, quantity, order_id, product_id) values (5, 1, 3, 1);
-insert into product_order(id, quantity, order_id, product_id) values (6, 2, 3, 2);
-insert into product_order(id, quantity, order_id, product_id) values (7, 4, 4, 1);
-insert into product_order(id, quantity, order_id, product_id) values (8, 2, 4, 2);

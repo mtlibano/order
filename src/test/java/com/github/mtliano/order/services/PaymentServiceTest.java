@@ -67,7 +67,7 @@ public class PaymentServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Cadastrar ERROR Type")
+	@DisplayName("Cadastrar ERROR Tipo")
 	void insertErrorTypeTest() {
 		var exception = assertThrows(IntegrityViolation.class, () -> paymentService.insert(new Payment(null, null)));
 		assertEquals("Tipo inválido!", exception.getMessage());

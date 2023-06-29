@@ -105,7 +105,7 @@ public class OrderServiceImpl implements OrderService {
 	public List<Order> findByRating(Rating rating) {
 		List<Order> list = repository.findByRating(rating);
 		if (list.isEmpty()) {
-			throw new ObjectNotFound("Nenhum pedido com essa avaliação: %s!".formatted(rating.getGrade()));
+			throw new ObjectNotFound("Nenhum pedido com essa avaliação: %s!".formatted(rating.getId()));
 		}
 		return list;
 	}

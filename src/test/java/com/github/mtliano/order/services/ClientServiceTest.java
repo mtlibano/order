@@ -78,7 +78,7 @@ public class ClientServiceTest extends BaseTests {
 	@Test
 	@DisplayName("Cadastrar ERROR Nome")
 	@Sql({"classpath:/resources/sqls/city.sql"})
-	void insertErrorNameTest() {
+	void insertTestErrorName() {
 		var exception = assertThrows(IntegrityViolation.class, () -> clientService.insert(new Client(null, null, "12345678912", "maria@trier.com", null, "88708600", "Rua1", "160", "São João", cityService.findById(1))));
 		assertEquals("Nome inválido!", exception.getMessage());
 	}
@@ -86,7 +86,7 @@ public class ClientServiceTest extends BaseTests {
 	@Test
 	@DisplayName("Cadastrar ERROR CPF")
 	@Sql({"classpath:/resources/sqls/city.sql"})
-	void insertErrorCpfTest() {
+	void insertTestErrorCpf() {
 		var exception = assertThrows(IntegrityViolation.class, () -> clientService.insert(new Client(null, "Maria", null, "maria@trier.com", null, "88708600", "Rua1", "160", "São João", cityService.findById(1))));
 		assertEquals("CPF inválido!", exception.getMessage());
 	}
@@ -94,7 +94,7 @@ public class ClientServiceTest extends BaseTests {
 	@Test
 	@DisplayName("Cadastrar ERROR Email")
 	@Sql({"classpath:/resources/sqls/city.sql"})
-	void insertErrorEmailTest() {
+	void insertTestErrorEmail() {
 		var exception = assertThrows(IntegrityViolation.class, () -> clientService.insert(new Client(null, "Maria", "12345678912", null, null, "88708600", "Rua1", "160", "São João", cityService.findById(1))));
 		assertEquals("Email inválido!", exception.getMessage());
 	}
@@ -152,7 +152,7 @@ public class ClientServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Buscar por email")
+	@DisplayName("Buscar por Email")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
 	void findByEmail() {
 		Optional<Client> client = clientService.findByEmailIgnoreCase("max@trier.com");
@@ -161,7 +161,7 @@ public class ClientServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Buscar por email ERROR")
+	@DisplayName("Buscar por Email ERROR")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
 	void findByEmailError() {
 		var exception = assertThrows(ObjectNotFound.class, () -> clientService.findByEmailIgnoreCase("pedro@trier.com"));
@@ -169,7 +169,7 @@ public class ClientServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Buscar por data nascimento")
+	@DisplayName("Buscar por Data Nascimento")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
 	void findByBirthDate() {
 		ZonedDateTime date = ZonedDateTime.of(1992, 10, 24, 0, 0, 0, 0, ZoneId.systemDefault());
@@ -178,7 +178,7 @@ public class ClientServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Buscar por data nascimento ERROR")
+	@DisplayName("Buscar por Data Nascimento ERROR")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
 	void findByBirthDateError() {
 		ZonedDateTime date = ZonedDateTime.of(2020, 10, 24, 0, 0, 0, 0, ZoneId.systemDefault());
@@ -187,7 +187,7 @@ public class ClientServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Buscar por intervalo de data nascimento")
+	@DisplayName("Buscar por intervalo de Data Nascimento")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
 	void findByBirthDateBetween() {
 		ZonedDateTime initialDate = ZonedDateTime.of(1990, 10, 24, 0, 0, 0, 0, ZoneId.systemDefault());
@@ -197,7 +197,7 @@ public class ClientServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Buscar por intervalo de data nascimento ERROR")
+	@DisplayName("Buscar por intervalo de Data Nascimento ERROR")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
 	void findByBirthDateBetweenError() {
 		ZonedDateTime initialDate = ZonedDateTime.of(1980, 10, 24, 0, 0, 0, 0, ZoneId.systemDefault());
@@ -207,7 +207,7 @@ public class ClientServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Buscar por bairro")
+	@DisplayName("Buscar por Bairro")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
 	void findByDistrictIgnoreCase() {
 		var list = clientService.findByDistrictIgnoreCase("bairro2");
@@ -215,7 +215,7 @@ public class ClientServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Buscar por bairro ERROR")
+	@DisplayName("Buscar por Bairro ERROR")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
 	void findByDistrictIgnoreCaseError() {
 		var exception = assertThrows(ObjectNotFound.class, () -> clientService.findByDistrictIgnoreCase("bairro4"));

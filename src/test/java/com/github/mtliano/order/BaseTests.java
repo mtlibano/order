@@ -8,14 +8,18 @@ import org.springframework.test.context.ActiveProfiles;
 import com.github.mtlibano.order.OrderApplication;
 import com.github.mtlibano.order.services.CityService;
 import com.github.mtlibano.order.services.ClientService;
+import com.github.mtlibano.order.services.OrderService;
 import com.github.mtlibano.order.services.PaymentService;
 import com.github.mtlibano.order.services.PhoneNumberService;
+import com.github.mtlibano.order.services.ProductOrderService;
 import com.github.mtlibano.order.services.ProductService;
 import com.github.mtlibano.order.services.RatingService;
 import com.github.mtlibano.order.services.impl.CityServiceImpl;
 import com.github.mtlibano.order.services.impl.ClientServiceImpl;
+import com.github.mtlibano.order.services.impl.OrderServiceImpl;
 import com.github.mtlibano.order.services.impl.PaymentServiceImpl;
 import com.github.mtlibano.order.services.impl.PhoneNumberServiceImpl;
+import com.github.mtlibano.order.services.impl.ProductOrderServiceImpl;
 import com.github.mtlibano.order.services.impl.ProductServiceImpl;
 import com.github.mtlibano.order.services.impl.RatingServiceImpl;
 
@@ -52,6 +56,16 @@ public class BaseTests {
 	@Bean
 	public ProductService productService() {
 		return new ProductServiceImpl();
+	}
+	
+	@Bean
+	public OrderService orderService() {
+		return new OrderServiceImpl();
+	}
+	
+	@Bean
+	public ProductOrderService productOrderService() {
+		return new ProductOrderServiceImpl();
 	}
 
 }

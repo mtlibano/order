@@ -24,6 +24,12 @@ public class ProductOrderServiceImpl implements ProductOrderService {
 		if (productOrder.getQuantity() == null || productOrder.getQuantity() == 0) {
 			throw new IntegrityViolation("Quantidade inválida!");
 		}
+		if (productOrder.getProduct() == null) {
+			throw new IntegrityViolation("Produto inválido!");
+		}
+		if (productOrder.getOrder() == null) {
+			throw new IntegrityViolation("Pedido inválido!");
+		}
 	}
 
 	@Override

@@ -64,7 +64,7 @@ public class PhoneNumberServiceTest extends BaseTests {
 	@DisplayName("Cadastrar")
 	@Sql({"classpath:/resources/sqls/client.sql"})
 	void insertTest() {
-		PhoneNumber phoneNumber = phoneNumberService.insert(new PhoneNumber(null, "911223344", clientService.findById(3)));
+		var phoneNumber = phoneNumberService.insert(new PhoneNumber(null, "911223344", clientService.findById(3)));
 		assertThat(phoneNumber).isNotNull();
 		var newPhoneNumber = phoneNumberService.findById(1);
 		assertEquals(1, newPhoneNumber.getId());
@@ -72,7 +72,7 @@ public class PhoneNumberServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Cadastrar ERROR número telefone")
+	@DisplayName("Cadastrar ERROR Número Telefone")
 	@Sql({"classpath:/resources/sqls/client.sql"})
 	void insertErrorPhoneNumberTest() {
 		var exception = assertThrows(IntegrityViolation.class, () -> phoneNumberService.insert(new PhoneNumber(null, null, clientService.findById(3))));
@@ -80,7 +80,7 @@ public class PhoneNumberServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Cadastrar ERROR cliente")
+	@DisplayName("Cadastrar ERROR Cliente")
 	@Sql({"classpath:/resources/sqls/client.sql"})
 	void insertErrorClientTest() {
 		var exception = assertThrows(IntegrityViolation.class, () -> phoneNumberService.insert(new PhoneNumber(null, "911223344", null)));
@@ -106,7 +106,7 @@ public class PhoneNumberServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Buscar por número telefone")
+	@DisplayName("Buscar por Número Telefone")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
 	void findByPhoneNumber() {
 		var list = phoneNumberService.findByPhoneNumber("984762611");
@@ -114,7 +114,7 @@ public class PhoneNumberServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Buscar por número telefone ERROR")
+	@DisplayName("Buscar por Número Telefone ERROR")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
 	void findByPhoneNumberError() {
 		var exception = assertThrows(ObjectNotFound.class, () -> phoneNumberService.findByPhoneNumber("911223344"));
@@ -122,7 +122,7 @@ public class PhoneNumberServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Buscar por cliente")
+	@DisplayName("Buscar por Cliente")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
 	void findByClient() {
 		var list = phoneNumberService.findByClient(clientService.findById(1));
@@ -130,7 +130,7 @@ public class PhoneNumberServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Buscar por cliente ERROR")
+	@DisplayName("Buscar por Cliente ERROR")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
 	void findByClientError() {
 		var exception = assertThrows(ObjectNotFound.class, () -> phoneNumberService.findByClient(clientService.findById(3)));

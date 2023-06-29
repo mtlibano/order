@@ -30,10 +30,11 @@ public class ClientServiceImpl implements ClientService {
 			throw new IntegrityViolation("Email inválido!");
 		}
 		/*
-		Optional<Client> newClient = repository.findByEmail(client.getEmail());
+		Optional<Client> newClient = repository.findByEmailIgnoreCase(client.getEmail());
 		if (client.getId() == newClient.get().getId()) {
 			throw new IntegrityViolation("Email já utilizado!");
-		}*/
+		}
+		*/
 	}
 
 	@Override
