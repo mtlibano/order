@@ -4,6 +4,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import com.github.mtlibano.order.domain.City;
 import com.github.mtlibano.order.domain.Client;
 
 public interface ClientService {
@@ -29,5 +30,7 @@ public interface ClientService {
     List<Client> findByBirthDateBetween(ZonedDateTime initialDate, ZonedDateTime finalDate);
     
     List<Client> findByDistrictIgnoreCase(String district);
+    
+    List<Client> findByCity(City city);
 
 }

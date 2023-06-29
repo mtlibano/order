@@ -14,7 +14,7 @@ import com.github.mtlibano.order.services.exceptions.ObjectNotFound;
 
 @Service
 public class CityServiceImpl implements CityService {
-	
+
 	@Autowired
 	CityRepository repository;
 
@@ -43,22 +43,22 @@ public class CityServiceImpl implements CityService {
 	@Override
 	public void delete(Integer id) {
 		City city = findById(id);
-        repository.delete(city);
+		repository.delete(city);
 	}
 
 	@Override
 	public City findById(Integer id) {
 		Optional<City> opt = repository.findById(id);
-        return opt.orElseThrow(() -> new ObjectNotFound("ID %s não encontrado!".formatted(id)));
+		return opt.orElseThrow(() -> new ObjectNotFound("ID %s não encontrado!".formatted(id)));
 	}
 
 	@Override
 	public List<City> listAll() {
 		List<City> list = repository.findAll();
-        if (list.isEmpty()) {
-            throw new ObjectNotFound("Void!");
-        }
-        return list;
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Void!");
+		}
+		return list;
 	}
 
 	@Override

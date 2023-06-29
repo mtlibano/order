@@ -21,7 +21,7 @@ public class City {
 	@Setter
 	private Integer id;
 	
-	@Column(nullable = false, length = 150, unique = true)
+	@Column(nullable = false, length = 150)
 	private String description;
 	
 	@Column(nullable = false, length = 2)

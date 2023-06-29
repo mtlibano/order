@@ -73,7 +73,7 @@ public class OrderServiceTest extends BaseTests {
 	
 	@Test
 	@DisplayName("Cadastrar")
-	@Sql({"classpath:/resources/sqls/order.sql"})
+	@Sql({"classpath:/resources/sqls/client.sql"})
 	void insertTest() {
 		var order = orderService.insert(new Order(null, ZonedDateTime.of(2023, 06, 06, 0, 0, 0, 0, ZoneId.systemDefault()), clientService.findById(1), paymentService.findById(1), ratingService.findById(1)));
 		assertThat(order).isNotNull();
@@ -117,7 +117,7 @@ public class OrderServiceTest extends BaseTests {
 	
 	@Test
 	@DisplayName("Delete")
-	@Sql({"classpath:/resources/sqls/order_all.sql"})
+	@Sql({"classpath:/resources/sqls/order.sql"})
 	void deleteTest() {
 		orderService.delete(2);
 		var list = orderService.listAll();

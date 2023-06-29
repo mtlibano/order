@@ -84,7 +84,7 @@ public class PaymentServiceTest extends BaseTests {
 	
 	@Test
 	@DisplayName("Delete")
-	@Sql({"classpath:/resources/sqls/order_all.sql"})
+	@Sql({"classpath:/resources/sqls/payment.sql"})
 	void deleteTest() {
 		paymentService.delete(2);
 		var list = paymentService.listAll();

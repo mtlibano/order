@@ -77,7 +77,7 @@ public class RatingServiceTest extends BaseTests {
 	
 	@Test
 	@DisplayName("Delete")
-	@Sql({"classpath:/resources/sqls/order_all.sql"})
+	@Sql({"classpath:/resources/sqls/rating.sql"})
 	void delete() {
 		ratingService.delete(2);
 		var list = ratingService.listAll();

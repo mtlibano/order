@@ -60,5 +60,10 @@ public class ProductResource {
     public ResponseEntity<List<ProductDTO>> findByPriceBetween(@PathVariable BigDecimal initialPrice, @PathVariable BigDecimal finalPrice) {
         return ResponseEntity.ok(service.findByPriceBetween(initialPrice, finalPrice).stream().map(Product::toDTO).toList());
     }
+    
+    @GetMapping("/barcode/{barcode}")
+    public ResponseEntity<List<ProductDTO>> findByBarcode(@PathVariable String barcode) {
+        return ResponseEntity.ok(service.findByBarcode(barcode).stream().map(Product::toDTO).toList());
+    }
 
 }

@@ -23,7 +23,7 @@ public class ProductServiceImpl implements ProductService {
 		if (product.getDescription() == null || product.getDescription().equals("")) {
 			throw new IntegrityViolation("Descrição inválida!");
 		}
-		if (product.getPrice() == null || product.getPrice().compareTo(BigDecimal.ZERO) == 0) {
+		if (product.getPrice() == null) {
 			throw new IntegrityViolation("Preço inválido!");
 		}
 	}
@@ -87,6 +87,15 @@ public class ProductServiceImpl implements ProductService {
 			throw new ObjectNotFound("Nenhum produto nessa faixa de preço: %s e %s".formatted(initialPrice, finalPrice));
 		}
 		return list;
+	}
+
+	@Override
+	public Optional<Product> findByBarcode(String barcode) {
+		Optional<Product> opt = repository.findByBarcode(barcode);
+		if (opt.isEmpty()) {
+			throw new ObjectNotFound("Nenhum produto com esse código de barra: %s".formatted(barcode));
+		}
+		return opt;
 	}
 
 }

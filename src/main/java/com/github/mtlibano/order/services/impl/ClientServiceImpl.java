@@ -8,6 +8,7 @@ import com.github.mtlibano.order.services.exceptions.IntegrityViolation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.mtlibano.order.domain.City;
 import com.github.mtlibano.order.domain.Client;
 import com.github.mtlibano.order.repositories.ClientRepository;
 import com.github.mtlibano.order.services.ClientService;
@@ -15,7 +16,7 @@ import com.github.mtlibano.order.services.exceptions.ObjectNotFound;
 
 @Service
 public class ClientServiceImpl implements ClientService {
-	
+
 	@Autowired
 	ClientRepository repository;
 
@@ -29,12 +30,26 @@ public class ClientServiceImpl implements ClientService {
 		if (client.getEmail() == null || client.getEmail() == "") {
 			throw new IntegrityViolation("Email inválido!");
 		}
-		/*
-		Optional<Client> newClient = repository.findByEmailIgnoreCase(client.getEmail());
-		if (client.getId() == newClient.get().getId()) {
-			throw new IntegrityViolation("Email já utilizado!");
+		duplicatedCpf(client);
+		duplicatedEmail(client);
+	}
+
+	public void duplicatedCpf(Client client) {
+		Optional<Client> testClient = repository.findByCpf(client.getCpf());
+		if (testClient.isPresent()) {
+			if (testClient.get().getId() != client.getId()) {
+				throw new IntegrityViolation("CPF já utilizado!");
+			}
 		}
-		*/
+	}
+	
+	public void duplicatedEmail(Client client) {
+		Optional<Client> testClient = repository.findByEmailIgnoreCase(client.getEmail());
+		if (testClient.isPresent()) {
+			if (testClient.get().getId() != client.getId()) {
+				throw new IntegrityViolation("Email já utilizado!");
+			}
+		}
 	}
 
 	@Override
@@ -53,22 +68,22 @@ public class ClientServiceImpl implements ClientService {
 	@Override
 	public void delete(Integer id) {
 		Client client = findById(id);
-        repository.delete(client);
+		repository.delete(client);
 	}
 
 	@Override
 	public Client findById(Integer id) {
 		Optional<Client> opt = repository.findById(id);
-        return opt.orElseThrow(() -> new ObjectNotFound("ID %s não encontrado!".formatted(id)));
+		return opt.orElseThrow(() -> new ObjectNotFound("ID %s não encontrado!".formatted(id)));
 	}
 
 	@Override
 	public List<Client> listAll() {
 		List<Client> list = repository.findAll();
-        if (list.isEmpty()) {
-            throw new ObjectNotFound("Void!");
-        }
-        return list;
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Void!");
+		}
+		return list;
 	}
 
 	@Override
@@ -111,7 +126,8 @@ public class ClientServiceImpl implements ClientService {
 	public List<Client> findByBirthDateBetween(ZonedDateTime initialDate, ZonedDateTime finalDate) {
 		List<Client> list = repository.findByBirthDateBetween(initialDate, finalDate);
 		if (list.isEmpty()) {
-			throw new ObjectNotFound("Nenhum cliente nesse intervalo de data de nascimento: %s e %s".formatted(initialDate, finalDate));
+			throw new ObjectNotFound(
+					"Nenhum cliente nesse intervalo de data de nascimento: %s e %s".formatted(initialDate, finalDate));
 		}
 		return list;
 	}
@@ -121,6 +137,15 @@ public class ClientServiceImpl implements ClientService {
 		List<Client> list = repository.findByDistrictIgnoreCase(district);
 		if (list.isEmpty()) {
 			throw new ObjectNotFound("Nenhum cliente cadastrado com esse bairro: %s".formatted(district));
+		}
+		return list;
+	}
+
+	@Override
+	public List<Client> findByCity(City city) {
+		List<Client> list = repository.findByCity(city);
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Nenhum cliente cadastrado com essa cidade: %s".formatted(city.getDescription()));
 		}
 		return list;
 	}

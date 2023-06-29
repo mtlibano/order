@@ -93,7 +93,7 @@ public class ProductServiceTest extends BaseTests {
 	
 	@Test
 	@DisplayName("Delete")
-	@Sql({"classpath:/resources/sqls/order_all.sql"})
+	@Sql({"classpath:/resources/sqls/product.sql"})
 	void deleteTest() {
 		productService.delete(2);
 		var list = productService.listAll();
@@ -101,7 +101,7 @@ public class ProductServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Buscar por descrição")
+	@DisplayName("Buscar por Descrição")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
 	void findByDescriptionIgnoreCase() {
 		var list = productService.findByDescriptionIgnoreCase("martelo");
@@ -109,7 +109,7 @@ public class ProductServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Buscar por descrição ERROR")
+	@DisplayName("Buscar por Descrição ERROR")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
 	void findByDescriptionIgnoreCaseError() {
 		var exception = assertThrows(ObjectNotFound.class, () -> productService.findByDescriptionIgnoreCase("test"));
@@ -117,7 +117,7 @@ public class ProductServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Buscar por preço")
+	@DisplayName("Buscar por Preço")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
 	void findByPrice() {
 		var list = productService.findByPrice(new BigDecimal(10));
@@ -125,7 +125,7 @@ public class ProductServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Buscar por preço ERROR")
+	@DisplayName("Buscar por Preço ERROR")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
 	void findByPriceError() {
 		var exception = assertThrows(ObjectNotFound.class, () -> productService.findByPrice(new BigDecimal(40)));
@@ -133,7 +133,7 @@ public class ProductServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Buscar por intervalo de preço")
+	@DisplayName("Buscar por intervalo de Preço")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
 	void findByPriceBetween() {
 		var list = productService.findByPriceBetween(new BigDecimal(10), new BigDecimal(40));
@@ -141,11 +141,28 @@ public class ProductServiceTest extends BaseTests {
 	}
 	
 	@Test
-	@DisplayName("Buscar por intervalo de preço ERROR")
+	@DisplayName("Buscar por intervalo de Preço ERROR")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
 	void findByPriceBetweemError() {
 		var exception = assertThrows(ObjectNotFound.class, () -> productService.findByPriceBetween(new BigDecimal(50), new BigDecimal(60)));
 		assertEquals("Nenhum produto nessa faixa de preço: 50 e 60", exception.getMessage());
+	}
+	
+	@Test
+	@DisplayName("Buscar por Código de Barra")
+	@Sql({"classpath:/resources/sqls/order_all.sql"})
+	void findByBarcode() {
+		var product = productService.findByBarcode("1234567891012");
+		assertEquals(1, product.get().getId());
+		assertEquals("Martelo", product.get().getDescription());
+	}
+	
+	@Test
+	@DisplayName("Buscar por Código de Barra ERROR")
+	@Sql({"classpath:/resources/sqls/order_all.sql"})
+	void findByBarcodeError() {
+		var exception = assertThrows(ObjectNotFound.class, () -> productService.findByBarcode("1231231231230"));
+		assertEquals("Nenhum produto com esse código de barra: 1231231231230", exception.getMessage());
 	}
 
 }

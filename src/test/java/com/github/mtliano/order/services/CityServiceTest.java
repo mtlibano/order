@@ -91,7 +91,7 @@ public class CityServiceTest extends BaseTests {
 	
 	@Test
 	@DisplayName("Delete")
-	@Sql({"classpath:/resources/sqls/order_all.sql"})
+	@Sql({"classpath:/resources/sqls/city.sql"})
 	void deleteTest() {
 		cityService.delete(2);
 		var list = cityService.listAll();
