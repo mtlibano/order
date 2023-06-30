@@ -1,6 +1,7 @@
 package com.github.mtlibano.order.services;
 
 import java.util.List;
+
 import com.github.mtlibano.order.domain.Rating;
 
 public interface RatingService {

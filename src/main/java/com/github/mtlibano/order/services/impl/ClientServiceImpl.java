@@ -20,7 +20,7 @@ public class ClientServiceImpl implements ClientService {
 	@Autowired
 	ClientRepository repository;
 
-	public void checkClient(Client client) {
+	public void validationClient(Client client) {
 		if (client.getName() == null || client.getName().equals("")) {
 			throw new IntegrityViolation("Nome inválido!");
 		}
@@ -54,13 +54,13 @@ public class ClientServiceImpl implements ClientService {
 
 	@Override
 	public Client insert(Client client) {
-		checkClient(client);
+		validationClient(client);
 		return repository.save(client);
 	}
 
 	@Override
 	public Client update(Client client) {
-		checkClient(client);
+		validationClient(client);
 		findById(client.getId());
 		return repository.save(client);
 	}

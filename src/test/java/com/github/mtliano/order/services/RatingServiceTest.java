@@ -11,6 +11,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.github.mtliano.order.BaseTests;
 import com.github.mtlibano.order.domain.Rating;
+import com.github.mtlibano.order.services.OrderService;
 import com.github.mtlibano.order.services.RatingService;
 import com.github.mtlibano.order.services.exceptions.ObjectNotFound;
 
@@ -21,6 +22,9 @@ public class RatingServiceTest extends BaseTests {
 	
 	@Autowired
 	RatingService ratingService;
+	
+	@Autowired
+	OrderService orderService;
 	
 	@Test
 	@DisplayName("Buscar por ID")

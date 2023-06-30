@@ -1,0 +1,2 @@
+insert into users(id, name, email, password, roles) values (3, 'Max', 'max@trier.com', 'qwerty', 'ADMIN,USER');
+insert into users(id, name, email, password, roles) values (4, 'Niki', 'niki@trier.com', '12345', 'USER');

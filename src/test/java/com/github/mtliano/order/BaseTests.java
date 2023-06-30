@@ -14,6 +14,7 @@ import com.github.mtlibano.order.services.PhoneNumberService;
 import com.github.mtlibano.order.services.ProductOrderService;
 import com.github.mtlibano.order.services.ProductService;
 import com.github.mtlibano.order.services.RatingService;
+import com.github.mtlibano.order.services.UserService;
 import com.github.mtlibano.order.services.impl.CityServiceImpl;
 import com.github.mtlibano.order.services.impl.ClientServiceImpl;
 import com.github.mtlibano.order.services.impl.OrderServiceImpl;
@@ -22,6 +23,7 @@ import com.github.mtlibano.order.services.impl.PhoneNumberServiceImpl;
 import com.github.mtlibano.order.services.impl.ProductOrderServiceImpl;
 import com.github.mtlibano.order.services.impl.ProductServiceImpl;
 import com.github.mtlibano.order.services.impl.RatingServiceImpl;
+import com.github.mtlibano.order.services.impl.UserServiceImpl;
 
 @SpringBootTest(classes = {OrderApplication.class})
 @TestConfiguration
@@ -66,6 +68,11 @@ public class BaseTests {
 	@Bean
 	public ProductOrderService productOrderService() {
 		return new ProductOrderServiceImpl();
+	}
+	
+	@Bean
+	public UserService userService() {
+		return new UserServiceImpl();
 	}
 
 }

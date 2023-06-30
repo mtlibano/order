@@ -2,6 +2,7 @@ package com.github.mtlibano.order.resources;
 
 import com.github.mtlibano.order.domain.Rating;
 import com.github.mtlibano.order.domain.dto.RatingDTO;
+import com.github.mtlibano.order.services.OrderService;
 import com.github.mtlibano.order.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,9 @@ public class RatingResource {
 
     @Autowired
     RatingService service;
+    
+    @Autowired
+    OrderService orderService;
 
     @PostMapping
     public ResponseEntity<RatingDTO> insert(@RequestBody RatingDTO ratingDTO) {

@@ -19,8 +19,7 @@ public class CityResource {
 
 	@PostMapping
 	public ResponseEntity<CityDTO> insert(@RequestBody CityDTO cityDTO) {
-		City newCity = service.insert(new City(cityDTO));
-		return ResponseEntity.ok(newCity.toDTO());
+		return ResponseEntity.ok(service.insert(new City(cityDTO)).toDTO());
 	}
 
 	@PutMapping("/{id}")
@@ -44,17 +43,17 @@ public class CityResource {
 
 	@GetMapping
 	public ResponseEntity<List<CityDTO>> listAll() {
-		return ResponseEntity.ok(service.listAll().stream().map(city -> city.toDTO()).toList());
+		return ResponseEntity.ok(service.listAll().stream().map(City::toDTO).toList());
 	}
 
 	@GetMapping("/description/{description}")
 	public ResponseEntity<List<CityDTO>> findByDescriptionIgnoreCase(@PathVariable String description) {
-		return ResponseEntity.ok(service.findByDescriptionIgnoreCase(description).stream().map(city -> city.toDTO()).toList());
+		return ResponseEntity.ok(service.findByDescriptionIgnoreCase(description).stream().map(City::toDTO).toList());
 	}
 
 	@GetMapping("/uf/{uf}")
 	public ResponseEntity<List<CityDTO>> findByUfIgnoreCase(@PathVariable String uf) {
-		return ResponseEntity.ok(service.findByUfIgnoreCase(uf).stream().map(city -> city.toDTO()).toList());
+		return ResponseEntity.ok(service.findByUfIgnoreCase(uf).stream().map(City::toDTO).toList());
 	}
 
 }
