@@ -20,7 +20,7 @@ public class ProductOrderServiceImpl implements ProductOrderService {
 	@Autowired
 	ProductOrderRepository repository;
 	
-	private void checkProductOrder(ProductOrder productOrder) {
+	private void validationProductOrder(ProductOrder productOrder) {
 		if (productOrder.getQuantity() == null || productOrder.getQuantity() == 0) {
 			throw new IntegrityViolation("Quantidade inválida!");
 		}
@@ -34,14 +34,14 @@ public class ProductOrderServiceImpl implements ProductOrderService {
 
 	@Override
 	public ProductOrder insert(ProductOrder productOrder) {
-		checkProductOrder(productOrder);
+		validationProductOrder(productOrder);
 		return repository.save(productOrder);
 	}
 
 	@Override
 	public ProductOrder update(ProductOrder productOrder) {
-		checkProductOrder(productOrder);
 		findById(productOrder.getId());
+		validationProductOrder(productOrder);
 		return repository.save(productOrder);
 	}
 

@@ -153,6 +153,22 @@ public class ClientServiceTest extends BaseTests {
 	}
 	
 	@Test
+	@DisplayName("Buscar por Nome Parcial")
+	@Sql({"classpath:/resources/sqls/order_all.sql"})
+	void findByNameContainingIgnoreCase() {
+		var list = clientService.findByNameContainingIgnoreCase("m");
+		assertEquals(2, list.size());
+	}
+	
+	@Test
+	@DisplayName("Buscar por Nome Parcial ERROR")
+	@Sql({"classpath:/resources/sqls/order_all.sql"})
+	void findByNameContainingIgnoreCaseError() {
+		var exception = assertThrows(ObjectNotFound.class, () -> clientService.findByNameContainingIgnoreCase("u"));
+		assertEquals("Nenhum cliente cadastrado com esse nome parcial: u", exception.getMessage());
+	}
+	
+	@Test
 	@DisplayName("Buscar por CPF")
 	@Sql({"classpath:/resources/sqls/order_all.sql"})
 	void findByCpf() {
@@ -222,6 +238,38 @@ public class ClientServiceTest extends BaseTests {
 		ZonedDateTime finalDate = ZonedDateTime.of(1990, 10, 24, 0, 0, 0, 0, ZoneId.systemDefault());
 		var exception = assertThrows(ObjectNotFound.class, () -> clientService.findByBirthDateBetween(initialDate, finalDate));
 		assertEquals("Nenhum cliente nesse intervalo de data de nascimento: 1980-10-24T00:00-03:00[America/Sao_Paulo] e 1990-10-24T00:00-02:00[America/Sao_Paulo]", exception.getMessage());
+	}
+	
+	@Test
+	@DisplayName("Buscar por Rua")
+	@Sql({"classpath:/resources/sqls/order_all.sql"})
+	void findByStreetIgnoreCase() {
+		var list = clientService.findByStreetIgnoreCase("rua1");
+		assertEquals(1, list.size());
+	}
+	
+	@Test
+	@DisplayName("Buscar por Rua ERROR")
+	@Sql({"classpath:/resources/sqls/order_all.sql"})
+	void findByStreetIgnoreCaseError() {
+		var exception = assertThrows(ObjectNotFound.class, () -> clientService.findByStreetIgnoreCase("rua10"));
+		assertEquals("Nenhum cliente cadastrado com essa rua: rua10", exception.getMessage());
+	}
+	
+	@Test
+	@DisplayName("Buscar por CEP")
+	@Sql({"classpath:/resources/sqls/order_all.sql"})
+	void findByCep() {
+		var list = clientService.findByCep("12345678");
+		assertEquals(2, list.size());
+	}
+	
+	@Test
+	@DisplayName("Buscar por CEP ERROR")
+	@Sql({"classpath:/resources/sqls/order_all.sql"})
+	void findByCepError() {
+		var exception = assertThrows(ObjectNotFound.class, () -> clientService.findByCep("88708000"));
+		assertEquals("Nenhum cliente cadastrado com esse CEP: 88708000", exception.getMessage());
 	}
 	
 	@Test

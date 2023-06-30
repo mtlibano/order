@@ -57,10 +57,20 @@ public class ClientResource {
     public ResponseEntity<List<ClientDTO>> findByNameIgnoreCase(@PathVariable String name) {
         return ResponseEntity.ok(service.findByNameIgnoreCase(name).stream().map(Client::toDTO).toList());
     }
+    
+    @GetMapping("/name/containing/{name}")
+    public ResponseEntity<List<ClientDTO>> findByNameContainingIgnoreCase(@PathVariable String name) {
+        return ResponseEntity.ok(service.findByNameContainingIgnoreCase(name).stream().map(Client::toDTO).toList());
+    }
 
     @GetMapping("/cpf/{cpf}")
     public ResponseEntity<List<ClientDTO>> findByCpf(@PathVariable String cpf) {
         return ResponseEntity.ok(service.findByCpf(cpf).stream().map(Client::toDTO).toList());
+    }
+    
+    @GetMapping("/email/{email}")
+    public ResponseEntity<List<ClientDTO>> findByEmailIgnoreCase(@PathVariable String email) {
+        return ResponseEntity.ok(service.findByEmailIgnoreCase(email).stream().map(Client::toDTO).toList());
     }
     
     @GetMapping("/date/{date}")
@@ -71,6 +81,26 @@ public class ClientResource {
     @GetMapping("/date/{initialDate}/{finalDate}")
     public ResponseEntity<List<ClientDTO>> findByBirthDateBetween(@PathVariable String initialDate, @PathVariable String finalDate) {
         return ResponseEntity.ok(service.findByBirthDateBetween(DateUtils.strToZonedDateTime(initialDate), DateUtils.strToZonedDateTime(finalDate)).stream().map(Client::toDTO).toList());
+    }
+    
+    @GetMapping("/street/{street}")
+    public ResponseEntity<List<ClientDTO>> findByStreetIgnoreCase(@PathVariable String street) {
+        return ResponseEntity.ok(service.findByStreetIgnoreCase(street).stream().map(Client::toDTO).toList());
+    }
+    
+    @GetMapping("/cep/{cep}")
+    public ResponseEntity<List<ClientDTO>> findByCep(@PathVariable String cep) {
+        return ResponseEntity.ok(service.findByCep(cep).stream().map(Client::toDTO).toList());
+    }
+    
+    @GetMapping("/district/{district}")
+    public ResponseEntity<List<ClientDTO>> findByDistrictIgnoreCase(@PathVariable String district) {
+        return ResponseEntity.ok(service.findByDistrictIgnoreCase(district).stream().map(Client::toDTO).toList());
+    }
+    
+    @GetMapping("/city/{city}")
+    public ResponseEntity<List<ClientDTO>> findByCity(@PathVariable Integer city) {
+        return ResponseEntity.ok(service.findByCity(cityService.findById(city)).stream().map(Client::toDTO).toList());
     }
 
 }

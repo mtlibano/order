@@ -30,26 +30,20 @@ public class ClientServiceImpl implements ClientService {
 		if (client.getEmail() == null || client.getEmail() == "") {
 			throw new IntegrityViolation("Email inválido!");
 		}
-		duplicatedCpf(client);
-		duplicatedEmail(client);
+		duplicateCpf(client);
+		duplicateEmail(client);
 	}
 
-	public void duplicatedCpf(Client client) {
-		Optional<Client> testClient = repository.findByCpf(client.getCpf());
-		if (testClient.isPresent()) {
-			if (testClient.get().getId() != client.getId()) {
-				throw new IntegrityViolation("CPF já utilizado!");
-			}
-		}
+	public void duplicateCpf(Client client) {
+		repository.findByCpf(client.getCpf())
+			.filter(testClient -> testClient.getId() != client.getId())
+			.ifPresent(testClient -> {throw new IntegrityViolation("CPF já utilizado!");});
 	}
 	
-	public void duplicatedEmail(Client client) {
-		Optional<Client> testClient = repository.findByEmailIgnoreCase(client.getEmail());
-		if (testClient.isPresent()) {
-			if (testClient.get().getId() != client.getId()) {
-				throw new IntegrityViolation("Email já utilizado!");
-			}
-		}
+	public void duplicateEmail(Client client) {
+		repository.findByEmailIgnoreCase(client.getEmail())
+			.filter(testClient -> testClient.getId() != client.getId())
+			.ifPresent(testClient -> {throw new IntegrityViolation("Email já utilizado!");});
 	}
 
 	@Override
@@ -60,8 +54,8 @@ public class ClientServiceImpl implements ClientService {
 
 	@Override
 	public Client update(Client client) {
-		validationClient(client);
 		findById(client.getId());
+		validationClient(client);
 		return repository.save(client);
 	}
 
@@ -91,6 +85,15 @@ public class ClientServiceImpl implements ClientService {
 		List<Client> list = repository.findByNameIgnoreCase(name);
 		if (list.isEmpty()) {
 			throw new ObjectNotFound("Nenhum cliente cadastrado com esse nome: %s".formatted(name));
+		}
+		return list;
+	}
+	
+	@Override
+	public List<Client> findByNameContainingIgnoreCase(String name) {
+		List<Client> list = repository.findByNameContainingIgnoreCase(name);
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Nenhum cliente cadastrado com esse nome parcial: %s".formatted(name));
 		}
 		return list;
 	}
@@ -128,6 +131,24 @@ public class ClientServiceImpl implements ClientService {
 		if (list.isEmpty()) {
 			throw new ObjectNotFound(
 					"Nenhum cliente nesse intervalo de data de nascimento: %s e %s".formatted(initialDate, finalDate));
+		}
+		return list;
+	}
+	
+	@Override
+	public List<Client> findByStreetIgnoreCase(String street) {
+		List<Client> list = repository.findByStreetIgnoreCase(street);
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Nenhum cliente cadastrado com essa rua: %s".formatted(street));
+		}
+		return list;
+	}
+	
+	@Override
+	public List<Client> findByCep(String cep) {
+		List<Client> list = repository.findByCep(cep);
+		if (list.isEmpty()) {
+			throw new ObjectNotFound("Nenhum cliente cadastrado com esse CEP: %s".formatted(cep));
 		}
 		return list;
 	}

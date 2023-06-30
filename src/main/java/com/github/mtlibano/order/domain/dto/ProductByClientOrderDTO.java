@@ -9,12 +9,16 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderByCityDTO {
+public class ProductByClientOrderDTO {
 	
-	private String description;
+	private String nome;
 	
-	private String uf;
+	private String cpf;
 	
-	private List<OrderDTO> order;
+	private Integer id;
+	
+	private String date;
+	
+	private List<ProductDTO> products;
 
 }

@@ -16,7 +16,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-@Entity(name = "order_task")
+@Entity(name = "orders")
 public class Order {
 	
 	@Id

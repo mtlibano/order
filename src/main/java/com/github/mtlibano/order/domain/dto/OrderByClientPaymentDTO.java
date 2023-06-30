@@ -9,12 +9,14 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductByClientDTO {
+public class OrderByClientPaymentDTO {
 	
 	private String name;
 	
 	private String cpf;
 	
-	private List<ProductDTO> products;
+	private String type;
+	
+	private List<OrderDTO> orders;
 
 }

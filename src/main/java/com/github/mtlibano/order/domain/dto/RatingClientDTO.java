@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RatingByClientDTO {
+public class RatingClientDTO {
 	
 	private String name;
 	

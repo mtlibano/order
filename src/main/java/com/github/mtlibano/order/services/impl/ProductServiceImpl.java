@@ -19,7 +19,7 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	ProductRepository repository;
 
-	private void checkProduct(Product product) {
+	private void validationProduct(Product product) {
 		if (product.getDescription() == null || product.getDescription().equals("")) {
 			throw new IntegrityViolation("Descrição inválida!");
 		}
@@ -30,14 +30,14 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product insert(Product product) {
-		checkProduct(product);
+		validationProduct(product);
 		return repository.save(product);
 	}
 
 	@Override
 	public Product update(Product product) {
 		findById(product.getId());
-		checkProduct(product);
+		validationProduct(product);
 		return repository.save(product);
 	}
 

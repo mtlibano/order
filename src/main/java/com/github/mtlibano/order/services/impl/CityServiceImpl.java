@@ -18,7 +18,7 @@ public class CityServiceImpl implements CityService {
 	@Autowired
 	CityRepository repository;
 
-	public void checkCity(City city) {
+	public void validationCity(City city) {
 		if (city.getDescription() == null || city.getDescription() == "") {
 			throw new IntegrityViolation("Descrição inválida!");
 		}
@@ -29,14 +29,14 @@ public class CityServiceImpl implements CityService {
 
 	@Override
 	public City insert(City city) {
-		checkCity(city);
+		validationCity(city);
 		return repository.save(city);
 	}
 
 	@Override
 	public City update(City city) {
 		findById(city.getId());
-		checkCity(city);
+		validationCity(city);
 		return repository.save(city);
 	}
 

@@ -19,7 +19,7 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	OrderRepository repository;
 
-	private void checkOrder(Order order) {
+	private void validationOrder(Order order) {
 		if (order.getDate() == null) {
 			throw new IntegrityViolation("Data inválida!");
 		}
@@ -33,14 +33,14 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Order insert(Order order) {
-		checkOrder(order);
+		validationOrder(order);
 		return repository.save(order);
 	}
 
 	@Override
 	public Order update(Order order) {
-		checkOrder(order);
 		findById(order.getId());
+		validationOrder(order);
 		return repository.save(order);
 	}
 

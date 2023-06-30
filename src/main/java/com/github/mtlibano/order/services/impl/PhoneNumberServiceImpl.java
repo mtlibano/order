@@ -19,7 +19,7 @@ public class PhoneNumberServiceImpl implements PhoneNumberService {
 	@Autowired
 	PhoneNumberRepository repository;
 
-	private void checkPhoneNumber(PhoneNumber phoneNumber) {
+	private void validationPhoneNumber(PhoneNumber phoneNumber) {
 		if (phoneNumber.getPhoneNumber() == null || phoneNumber.getPhoneNumber().equals("")) {
 			throw new IntegrityViolation("Número telefone inválido!");
 		}
@@ -30,14 +30,14 @@ public class PhoneNumberServiceImpl implements PhoneNumberService {
 
 	@Override
 	public PhoneNumber insert(PhoneNumber phoneNumber) {
-		checkPhoneNumber(phoneNumber);
+		validationPhoneNumber(phoneNumber);
 		return repository.save(phoneNumber);
 	}
 
 	@Override
 	public PhoneNumber update(PhoneNumber phoneNumber) {
-		checkPhoneNumber(phoneNumber);
 		findById(phoneNumber.getId());
+		validationPhoneNumber(phoneNumber);
 		return repository.save(phoneNumber);
 	}
 

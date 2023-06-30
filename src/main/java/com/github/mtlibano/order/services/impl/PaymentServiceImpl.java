@@ -18,7 +18,7 @@ public class PaymentServiceImpl implements PaymentService {
 	@Autowired
 	PaymentRepository repository;
 
-	private void checkPayment(Payment payment) {
+	private void validationPayment(Payment payment) {
 		if (payment.getType() == null || payment.getType().equals("")) {
 			throw new IntegrityViolation("Tipo inválido!");
 		}
@@ -26,14 +26,14 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public Payment insert(Payment payment) {
-		checkPayment(payment);
+		validationPayment(payment);
 		return repository.save(payment);
 	}
 
 	@Override
 	public Payment update(Payment payment) {
-		checkPayment(payment);
 		findById(payment.getId());
+		validationPayment(payment);
 		return repository.save(payment);
 	}
 

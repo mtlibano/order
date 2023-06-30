@@ -14,6 +14,8 @@ import java.util.Optional;
 public interface ClientRepository extends JpaRepository<Client, Integer>{
 
     List<Client> findByNameIgnoreCase(String name);
+    
+    List<Client> findByNameContainingIgnoreCase(String name);
 
     Optional<Client> findByCpf(String cpf);
 
@@ -22,6 +24,10 @@ public interface ClientRepository extends JpaRepository<Client, Integer>{
     List<Client> findByBirthDate(ZonedDateTime date);
     
     List<Client> findByBirthDateBetween(ZonedDateTime initialDate, ZonedDateTime finalDate);
+    
+    List<Client> findByStreetIgnoreCase(String street);
+    
+    List<Client> findByCep(String cep);
     
     List<Client> findByDistrictIgnoreCase(String district);
     
